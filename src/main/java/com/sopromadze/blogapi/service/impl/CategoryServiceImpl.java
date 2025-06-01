@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public ResponseEntity<Category> getCategory(Long id) {
-		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
+		Category category = (Category) categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
 		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 
@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public ResponseEntity<Category> updateCategory(Long id, Category newCategory, UserPrincipal currentUser) {
-		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
+		Category category = (Category) categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category", "id", id));
 		if (category.getCreatedBy().equals(currentUser.getId()) || currentUser.getAuthorities()
 				.contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			category.setName(newCategory.getName());
@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public ResponseEntity<ApiResponse> deleteCategory(Long id, UserPrincipal currentUser) {
-		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("category", "id", id));
+		Category category = (Category) categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("category", "id", id));
 		if (category.getCreatedBy().equals(currentUser.getId()) || currentUser.getAuthorities()
 				.contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			categoryRepository.deleteById(id);
@@ -79,25 +79,3 @@ public class CategoryServiceImpl implements CategoryService {
 		throw new UnauthorizedException("You don't have permission to delete this category");
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

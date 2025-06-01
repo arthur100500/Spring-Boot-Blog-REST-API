@@ -38,7 +38,7 @@ public class TodoServiceImpl implements TodoService {
 
 	@Override
 	public Todo completeTodo(Long id, UserPrincipal currentUser) {
-		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
+		Todo todo = (Todo) todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
 
 		User user = userRepository.getUser(currentUser);
 
@@ -54,7 +54,7 @@ public class TodoServiceImpl implements TodoService {
 
 	@Override
 	public Todo unCompleteTodo(Long id, UserPrincipal currentUser) {
-		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
+		Todo todo = (Todo) todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
 		User user = userRepository.getUser(currentUser);
 		if (todo.getUser().getId().equals(user.getId())) {
 			todo.setCompleted(Boolean.FALSE);
@@ -89,7 +89,7 @@ public class TodoServiceImpl implements TodoService {
 	@Override
 	public Todo getTodo(Long id, UserPrincipal currentUser) {
 		User user = userRepository.getUser(currentUser);
-		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
+		Todo todo = (Todo) todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
 
 		if (todo.getUser().getId().equals(user.getId())) {
 			return todo;
@@ -103,7 +103,7 @@ public class TodoServiceImpl implements TodoService {
 	@Override
 	public Todo updateTodo(Long id, Todo newTodo, UserPrincipal currentUser) {
 		User user = userRepository.getUser(currentUser);
-		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
+		Todo todo = (Todo) todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
 		if (todo.getUser().getId().equals(user.getId())) {
 			todo.setTitle(newTodo.getTitle());
 			todo.setCompleted(newTodo.getCompleted());
@@ -118,7 +118,7 @@ public class TodoServiceImpl implements TodoService {
 	@Override
 	public ApiResponse deleteTodo(Long id, UserPrincipal currentUser) {
 		User user = userRepository.getUser(currentUser);
-		Todo todo = todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
+		Todo todo = (Todo) todoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TODO, ID, id));
 
 		if (todo.getUser().getId().equals(user.getId())) {
 			todoRepository.deleteById(id);

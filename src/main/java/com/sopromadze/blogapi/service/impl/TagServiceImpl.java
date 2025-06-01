@@ -42,7 +42,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public Tag getTag(Long id) {
-		return tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
+		return (Tag) tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public Tag updateTag(Long id, Tag newTag, UserPrincipal currentUser) {
-		Tag tag = tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
+		Tag tag = (Tag) tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
 		if (tag.getCreatedBy().equals(currentUser.getId()) || currentUser.getAuthorities()
 				.contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			tag.setName(newTag.getName());
@@ -65,7 +65,7 @@ public class TagServiceImpl implements TagService {
 
 	@Override
 	public ApiResponse deleteTag(Long id, UserPrincipal currentUser) {
-		Tag tag = tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
+		Tag tag = (Tag) tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Tag", "id", id));
 		if (tag.getCreatedBy().equals(currentUser.getId()) || currentUser.getAuthorities()
 				.contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			tagRepository.deleteById(id);
@@ -77,25 +77,3 @@ public class TagServiceImpl implements TagService {
 		throw new UnauthorizedException(apiResponse);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

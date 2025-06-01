@@ -83,7 +83,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public PagedResponse<Post> getPostsByCategory(Long id, int page, int size) {
 		AppUtils.validatePageNumberAndSize(page, size);
-		Category category = categoryRepository.findById(id)
+		Category category = (Category) categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(CATEGORY, ID, id));
 
 		Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, CREATED_AT);
@@ -99,7 +99,7 @@ public class PostServiceImpl implements PostService {
 	public PagedResponse<Post> getPostsByTag(Long id, int page, int size) {
 		AppUtils.validatePageNumberAndSize(page, size);
 
-		Tag tag = tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TAG, ID, id));
+		Tag tag = (Tag) tagRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(TAG, ID, id));
 
 		Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, CREATED_AT);
 
@@ -113,8 +113,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post updatePost(Long id, PostRequest newPostRequest, UserPrincipal currentUser) {
-		Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(POST, ID, id));
-		Category category = categoryRepository.findById(newPostRequest.getCategoryId())
+		Post post = (Post) postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(POST, ID, id));
+		Category category = (Category) categoryRepository.findById(newPostRequest.getCategoryId())
 				.orElseThrow(() -> new ResourceNotFoundException(CATEGORY, ID, newPostRequest.getCategoryId()));
 		if (post.getUser().getId().equals(currentUser.getId())
 				|| currentUser.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
@@ -130,7 +130,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public ApiResponse deletePost(Long id, UserPrincipal currentUser) {
-		Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(POST, ID, id));
+		Post post = (Post) postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(POST, ID, id));
 		if (post.getUser().getId().equals(currentUser.getId())
 				|| currentUser.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			postRepository.deleteById(id);
@@ -144,9 +144,9 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public PostResponse addPost(PostRequest postRequest, UserPrincipal currentUser) {
-		User user = userRepository.findById(currentUser.getId())
+		User user = (User) userRepository.findById(currentUser.getId())
 				.orElseThrow(() -> new ResourceNotFoundException(USER, ID, 1L));
-		Category category = categoryRepository.findById(postRequest.getCategoryId())
+		Category category = (Category) categoryRepository.findById(postRequest.getCategoryId())
 				.orElseThrow(() -> new ResourceNotFoundException(CATEGORY, ID, postRequest.getCategoryId()));
 
 		List<Tag> tags = new ArrayList<>(postRequest.getTags().size());
@@ -186,7 +186,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post getPost(Long id) {
-		return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(POST, ID, id));
+		return (Post) postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(POST, ID, id));
 	}
 
 	private void validatePageNumberAndSize(int page, int size) {

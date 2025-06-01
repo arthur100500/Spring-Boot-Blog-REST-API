@@ -60,7 +60,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment addComment(CommentRequest commentRequest, Long postId, UserPrincipal currentUser) {
-		Post post = postRepository.findById(postId)
+		Post post = (Post) postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException(POST_STR, ID_STR, postId));
 		User user = userRepository.getUser(currentUser);
 		Comment comment = new Comment(commentRequest.getBody());
@@ -73,9 +73,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment getComment(Long postId, Long id) {
-		Post post = postRepository.findById(postId)
+		Post post = (Post) postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException(POST_STR, ID_STR, postId));
-		Comment comment = commentRepository.findById(id)
+		Comment comment = (Comment) commentRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(COMMENT_STR, ID_STR, id));
 		if (comment.getPost().getId().equals(post.getId())) {
 			return comment;
@@ -87,9 +87,9 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public Comment updateComment(Long postId, Long id, CommentRequest commentRequest,
 			UserPrincipal currentUser) {
-		Post post = postRepository.findById(postId)
+		Post post = (Post) postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException(POST_STR, ID_STR, postId));
-		Comment comment = commentRepository.findById(id)
+		Comment comment = (Comment) commentRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(COMMENT_STR, ID_STR, id));
 
 		if (!comment.getPost().getId().equals(post.getId())) {
@@ -107,9 +107,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public ApiResponse deleteComment(Long postId, Long id, UserPrincipal currentUser) {
-		Post post = postRepository.findById(postId)
+		Post post = (Post) postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException(POST_STR, ID_STR, postId));
-		Comment comment = commentRepository.findById(id)
+		Comment comment = (Comment) commentRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException(COMMENT_STR, ID_STR, id));
 
 		if (!comment.getPost().getId().equals(post.getId())) {

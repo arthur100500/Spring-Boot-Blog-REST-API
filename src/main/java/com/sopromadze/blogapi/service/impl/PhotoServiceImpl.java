@@ -65,7 +65,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public PhotoResponse getPhoto(Long id) {
-		Photo photo = photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PHOTO, ID, id));
+		Photo photo = (Photo) photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PHOTO, ID, id));
 
 		return new PhotoResponse(photo.getId(), photo.getTitle(), photo.getUrl(),
 				photo.getThumbnailUrl(), photo.getAlbum().getId());
@@ -73,9 +73,9 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public PhotoResponse updatePhoto(Long id, PhotoRequest photoRequest, UserPrincipal currentUser) {
-		Album album = albumRepository.findById(photoRequest.getAlbumId())
+		Album album = (Album) albumRepository.findById(photoRequest.getAlbumId())
 				.orElseThrow(() -> new ResourceNotFoundException(ALBUM, ID, photoRequest.getAlbumId()));
-		Photo photo = photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PHOTO, ID, id));
+		Photo photo = (Photo) photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PHOTO, ID, id));
 		if (photo.getAlbum().getUser().getId().equals(currentUser.getId())
 				|| currentUser.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			photo.setTitle(photoRequest.getTitle());
@@ -93,7 +93,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public PhotoResponse addPhoto(PhotoRequest photoRequest, UserPrincipal currentUser) {
-		Album album = albumRepository.findById(photoRequest.getAlbumId())
+		Album album = (Album) albumRepository.findById(photoRequest.getAlbumId())
 				.orElseThrow(() -> new ResourceNotFoundException(ALBUM, ID, photoRequest.getAlbumId()));
 		if (album.getUser().getId().equals(currentUser.getId())) {
 			Photo photo = new Photo(photoRequest.getTitle(), photoRequest.getUrl(), photoRequest.getThumbnailUrl(),
@@ -110,7 +110,7 @@ public class PhotoServiceImpl implements PhotoService {
 
 	@Override
 	public ApiResponse deletePhoto(Long id, UserPrincipal currentUser) {
-		Photo photo = photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PHOTO, ID, id));
+		Photo photo = (Photo) photoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(PHOTO, ID, id));
 		if (photo.getAlbum().getUser().getId().equals(currentUser.getId())
 				|| currentUser.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
 			photoRepository.deleteById(id);
