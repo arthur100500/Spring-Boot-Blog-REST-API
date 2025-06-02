@@ -6,35 +6,21 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import java.time.Instant;
 
 @EqualsAndHashCode(callSuper = true)
-@Entity
 @Data
 @NoArgsConstructor
-@Table(name = "geo")
 public class Geo extends UserDateAudit {
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "lat")
 	private String lat;
 
-	@Column(name = "lng")
 	private String lng;
 
-	@OneToOne(mappedBy = "geo")
 	private Address address;
 
 	public Geo(String lat, String lng) {
