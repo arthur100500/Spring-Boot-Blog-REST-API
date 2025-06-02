@@ -6,7 +6,7 @@ import com.sopromadze.blogapi.security.UserPrincipal;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Optional;
 
 @Repository

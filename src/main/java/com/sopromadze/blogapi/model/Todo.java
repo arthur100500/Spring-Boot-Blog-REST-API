@@ -6,7 +6,7 @@ import com.sopromadze.blogapi.model.user.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
