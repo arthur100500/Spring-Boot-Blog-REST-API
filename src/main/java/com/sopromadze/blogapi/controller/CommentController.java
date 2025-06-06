@@ -63,6 +63,10 @@ public class CommentController {
 			@PathVariable(name = "id") Long id, @Valid @RequestBody CommentRequest commentRequest,
 			@CurrentUser UserPrincipal currentUser) {
 
+		if (commentService == null) {
+			System.out.println("bruh what");
+		}
+
 		Comment updatedComment = commentService.updateComment(postId, id, commentRequest, currentUser);
 
 		return new ResponseEntity<>(updatedComment, HttpStatus.OK);
