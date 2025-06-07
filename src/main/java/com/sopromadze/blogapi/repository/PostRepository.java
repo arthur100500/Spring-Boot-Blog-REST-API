@@ -29,8 +29,12 @@ public class PostRepository {
         return null;
     }
 
-    public Optional<Object> findById(Long postId) {
-        throw new NotImplementedException("TODO");
+    public Optional<Post> findById(Long postId) {
+        Post post = new Post();
+        post.setId(postId);
+        post.setBody("Fake post body");
+        post.setTitle("Fake post title");
+        return Optional.of(post);
     }
 
     public Post save(Post post) {
