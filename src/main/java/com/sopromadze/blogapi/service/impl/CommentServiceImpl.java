@@ -86,7 +86,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment updateComment(Long postId, Long id, CommentRequest commentRequest,
-			UserPrincipal currentUser) {
+				UserPrincipal currentUser) {
 		Post post = (Post) postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException(POST_STR, ID_STR, postId));
 		Comment comment = (Comment) commentRepository.findById(id)
