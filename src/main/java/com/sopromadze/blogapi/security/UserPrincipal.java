@@ -65,7 +65,7 @@ public class UserPrincipal implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities == null ? null : new ArrayList<>(authorities);
+		return authorities;
 	}
 
 	@Override
