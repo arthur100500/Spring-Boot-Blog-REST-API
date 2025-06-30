@@ -24,11 +24,11 @@ public abstract class DateAudit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@CreatedDate
-	@Column(nullable = false, updatable = false)
+	@Column(updatable = false)
 	private Instant createdAt;
 
 	@LastModifiedDate
-	@Column(nullable = false)
+	@Column()
 	private Instant updatedAt;
 
 }
